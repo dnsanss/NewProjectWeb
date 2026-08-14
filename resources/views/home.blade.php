@@ -10,91 +10,160 @@
 
         <div class="lg:col-span-2 space-y-6">
 
+            <!-- artikel utama -->
             <div class="relative h-420px rounded-lg overflow-hidden">
 
-                <img
-                    src="https://images.unsplash.com/photo-1560958089-b8a1929cea89"
-                    class="w-full h-full object-cover">
+                @if ($featuredArticle)
+                <article class="relative overflow-hidden rounded-xl">
+                    <img
+                        src="{{ Storage::url($featuredArticle->thumbnail) }}"
+                        alt="{{ $featuredArticle->title }}"
+                        class="h-420px w-full object-cover">
 
-                <div class="absolute inset-0 bg-linear-to-t from-black/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
 
-                <div class="absolute bottom-0 p-8 text-white">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <span class="inline-block rounded bg-red-600 px-3 py-1 text-xs font-semibold">
+                            {{ $featuredArticle->category->name }}
+                        </span>
 
-                    <span class="bg-red-600 px-3 py-1 text-xs font-bold">
-                        FEATURED
-                    </span>
+                        <h1 class="mt-3 text-2xl font-bold md:text-4xl">
+                            {{ $featuredArticle->title }}
+                        </h1>
 
-                    <h2 class="text-3xl font-bold mt-4">
-                        Tesla Model S 2025 Resmi Meluncur dengan Fitur Super Canggih
+                        <p class="mt-2 text-sm text-gray-200">
+                            {{ $featuredArticle->excerpt }}
+                        </p>
+
+                        <div class="mt-3 text-xs text-gray-300">
+                            {{ $featuredArticle->published_at?->format('d M Y') }}
+                        </div>
+                    </div>
+                </article>
+                @endif
+
+            </div>
+
+            <!-- artikel lainnya -->
+            <div class="space-y-6">
+
+                <section class="mt-10">
+
+                    <div class="mb-5 flex items-center justify-between">
+                        <h2 class="text-2xl font-bold">
+                            Berita Terbaru
+                        </h2>
+
+                        <a
+                            href="#"
+                            class="text-sm font-semibold text-red-600 hover:text-red-700">
+                            Lihat Semua
+                        </a>
+                    </div>
+
+                    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+                        @foreach ($latestArticles as $article)
+
+                        <article class="overflow-hidden rounded-xl bg-white shadow-sm">
+
+                            <a href="#">
+                                <img
+                                    src="{{ Storage::url($article->thumbnail) }}"
+                                    alt="{{ $article->title }}"
+                                    class="h-52 w-full object-cover">
+                            </a>
+
+                            <div class="p-4">
+
+                                <div class="mb-2 flex items-center gap-2 text-xs">
+                                    <span class="font-semibold text-red-600">
+                                        {{ $article->category->name }}
+                                    </span>
+
+                                    <span class="text-gray-400">
+                                        {{ $article->published_at?->format('d M Y') }}
+                                    </span>
+                                </div>
+
+                                <h3 class="text-lg font-bold leading-tight">
+                                    <a href="#">
+                                        {{ $article->title }}
+                                    </a>
+                                </h3>
+
+                                @if ($article->excerpt)
+                                <p class="mt-2 line-clamp-2 text-sm text-gray-500">
+                                    {{ $article->excerpt }}
+                                </p>
+                                @endif
+
+                            </div>
+
+                        </article>
+
+                        @endforeach
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- video terbaru -->
+            <section class="mt-12">
+
+                <div class="mb-5 flex items-center justify-between">
+                    <h2 class="text-2xl font-bold">
+                        Video Terbaru
                     </h2>
+                </div>
 
-                    <p class="text-sm mt-3">
-                        11 Mei 2025
-                    </p>
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+                    @foreach ($videoArticles as $article)
+
+                    <article>
+
+                        <div class="relative overflow-hidden rounded-xl">
+
+                            <img
+                                src="{{ Storage::url($article->thumbnail) }}"
+                                alt="{{ $article->title }}"
+                                class="h-48 w-full object-cover">
+
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90">
+                                    <svg
+                                        class="ml-1 h-5 w-5 text-red-600"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path d="M6.3 2.8A1 1 0 0 0 5 3.6v12.8a1 1 0 0 0 1.3.8l10-6.4a1 1 0 0 0 0-1.6l-10-6.4Z" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-3">
+
+                            <span class="text-xs font-semibold text-red-600">
+                                {{ $article->category->name }}
+                            </span>
+
+                            <h3 class="mt-1 font-bold">
+                                {{ $article->title }}
+                            </h3>
+
+                        </div>
+
+                    </article>
+
+                    @endforeach
 
                 </div>
 
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-                @foreach(range(1,4) as $item)
-
-                <article class="bg-white">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7"
-                        class="w-full h-32 object-cover">
-
-                    <div class="p-3">
-
-                        <span class="text-xs text-red-600 font-semibold">
-                            OTOMOTIF
-                        </span>
-
-                        <h3 class="font-semibold text-sm mt-2">
-                            Judul Berita Terbaru
-                        </h3>
-
-                    </div>
-
-                </article>
-
-                @endforeach
-
-            </div>
-
-            <div class="space-y-6">
-
-                @foreach(range(1,3) as $item)
-
-                <article class="bg-white flex">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d"
-                        class="w-56 h-40 object-cover">
-
-                    <div class="p-5">
-
-                        <span class="text-xs text-purple-600 font-semibold">
-                            REVIEW
-                        </span>
-
-                        <h3 class="text-xl font-bold mt-2">
-                            Review Produk Terbaru Tahun 2025
-                        </h3>
-
-                        <p class="text-gray-500 text-sm mt-3">
-                            Ringkasan berita yang nantinya berasal dari database.
-                        </p>
-
-                    </div>
-
-                </article>
-
-                @endforeach
-
-            </div>
+            </section>
 
             <div>
 

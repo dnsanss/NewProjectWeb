@@ -63,8 +63,11 @@ class ArticleForm
                             ->image()
                             ->disk('public')
                             ->directory('articles')
-                            ->imageEditor()
-                            ->required(),
+                            ->visibility('public')
+                            ->openable()
+                            ->downloadable()
+                            ->deletable()
+                            ->nullable(),
 
                         Select::make('media_type')
                             ->label('Jenis Media')
@@ -84,6 +87,22 @@ class ArticleForm
                                 fn($get): bool =>
                                 $get('media_type') === 'video'
                             ),
+
+                        FileUpload::make('video_file')
+                            ->label('Upload Video')
+                            ->disk('public')
+                            ->directory('videos')
+                            ->visibility('public')
+                            ->acceptedFileTypes([
+                                'video/mp4',
+                                'video/webm',
+                                'video/ogg',
+                                'video/quicktime',
+                            ])
+                            ->maxSize(51200)
+                            ->downloadable()
+                            ->openable()
+                            ->visible(fn($get): bool => $get('media_type') === 'video'),
 
                     ])
                     ->columns(2),
